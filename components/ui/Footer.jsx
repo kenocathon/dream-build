@@ -1,61 +1,66 @@
 // components/ui/Footer.jsx
-import React from "react";
 import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-background/80 backdrop-blur-sm border-t border-border/50 py-8 px-4">
-      <div className="container mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+    <footer className="bg-deepblack border-t border-gray-800 py-12 px-6">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="text-center md:text-left">
-          <h3 className="text-foreground text-lg font-bold">
+          <h3 className="text-white text-lg font-bold">
             Dream Build Luxury Glass LLC
           </h3>
-          <p className="text-muted-foreground text-sm mt-2">
+          <p className="text-gray-400 text-sm mt-2">
             Crafting Luxury, One Pane at a Time
           </p>
         </div>
-        <nav className="flex flex-wrap gap-4 justify-center text-muted-foreground">
+        <nav className="flex flex-wrap gap-6 justify-center text-gray-400">
           <Link
             href="#about"
-            className="hover:text-foreground transition-colors"
+            className="hover:text-gold-500 transition-colors"
           >
             About
           </Link>
           <Link
             href="#services"
-            className="hover:text-foreground transition-colors"
+            className="hover:text-gold-500 transition-colors"
           >
             Services
           </Link>
           <Link
             href="/gallery"
-            className="hover:text-foreground transition-colors"
+            className="hover:text-gold-500 transition-colors"
           >
             Gallery
           </Link>
           <Link
             href="#contact"
-            className="hover:text-foreground transition-colors"
+            className="hover:text-gold-500 transition-colors"
           >
             Contact
+          </Link>
+          <Link
+            href="/privacy"
+            className="hover:text-gold-500 transition-colors"
+          >
+            Privacy Policy
           </Link>
         </nav>
         <div className="flex flex-col items-center md:items-end gap-2">
           <a
-            href="tel:+1234567890"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            href="tel:+14047078819"
+            className="text-gray-400 hover:text-gold-500 transition-colors"
           >
-            (123) 456-7890
+            (404) 707-8819
           </a>
           <a
-            href="mailto:info@dreambuildglass.com"
-            className="text-muted-foreground hover:text-foreground transition-colors"
+            href="mailto:support@dbluxuryglass.com"
+            className="text-gray-400 hover:text-gold-500 transition-colors"
           >
-            info@dreambuildglass.com
+            support@dbluxuryglass.com
           </a>
         </div>
       </div>
-      <div className="text-center text-muted-foreground text-sm mt-6">
+      <div className="text-center text-gray-500 text-sm mt-8">
         &copy; {new Date().getFullYear()} Dream Build Luxury Glass LLC. All
         rights reserved.
       </div>

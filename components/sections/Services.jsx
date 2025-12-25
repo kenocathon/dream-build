@@ -1,4 +1,4 @@
-// components/sections/Services.tsx  – Updated version
+// components/sections/Services.jsx
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,7 +8,7 @@ const mainServices = [
     description:
       "Sleek, custom-measured glass enclosures that turn your bathroom into a modern spa.",
     image:
-      "https://pub-cc4555fbc9df4ef39b98f6a38afad8ee.r2.dev/glass-shower-enclosure.jpeg",
+      "https://images.dbluxuryglass.com/shower-marble-black-accent-gold-trim.jpeg",
     alt: "Luxury frameless glass shower by Dream Build Luxury Glass",
   },
   {
@@ -16,7 +16,7 @@ const mainServices = [
     description:
       "Standalone or integrated LED-lit handrails for stairs, decks, and balconies.",
     image:
-      "https://pub-cc4555fbc9df4ef39b98f6a38afad8ee.r2.dev/glass-handrail.jpeg",
+      "https://images.dbluxuryglass.com/glass-handrail-white-steps.jpeg",
     alt: "Elegant glass handrail installation",
   },
 ];

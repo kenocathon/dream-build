@@ -1,7 +1,7 @@
 // components/sections/Stats.jsx
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 const stats = [
   { value: 15, label: "Years of Excellence", suffix: "+" },
@@ -11,8 +11,33 @@ const stats = [
 ];
 
 export default function Stats() {
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="stats" className="py-24 md:py-32 bg-deepblack overflow-hidden">
+    <section
+      ref={sectionRef}
+      id="stats"
+      className="py-24 md:py-32 bg-deepblack overflow-hidden"
+    >
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 md:mb-20">
           <h2 className="text-5xl md:text-7xl font-black tracking-tight text-white">
@@ -25,7 +50,12 @@ export default function Stats() {
 
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {stats.map((stat, index) => (
-            <StatItem key={index} stat={stat} delay={index * 200} />
+            <StatItem
+              key={index}
+              stat={stat}
+              delay={index * 200}
+              isVisible={isVisible}
+            />
           ))}
         </div>
       </div>
@@ -33,11 +63,12 @@ export default function Stats() {
   );
 }
 
-// Animated counter component (plain JS)
-function StatItem({ stat, delay }) {
+function StatItem({ stat, delay, isVisible }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
+    if (!isVisible) return;
+
     const timer = setTimeout(() => {
       let start = 0;
       const end = stat.value;
@@ -58,7 +89,7 @@ function StatItem({ stat, delay }) {
     }, delay);
 
     return () => clearTimeout(timer);
-  }, [stat.value, delay]);
+  }, [stat.value, delay, isVisible]);
 
   return (
     <div className="text-center group">

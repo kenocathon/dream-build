@@ -1,6 +1,6 @@
-"use client"; // Required for client-side interactivity (mobile menu, theme toggle)
+"use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Bars3Icon, XMarkIcon, PhoneIcon } from "@heroicons/react/24/outline";
 import Image from "next/image";
@@ -13,11 +13,11 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/50">
-      <div className="container mx-auto flex items-center justify-between p-4">
+    <header className="sticky top-0 z-50 bg-deepblack/90 backdrop-blur-sm border-b border-gray-800/50">
+      <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
         {/* Mobile Menu Button */}
         <button
-          className="text-foreground lg:hidden"
+          className="text-white lg:hidden"
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           onClick={toggleMenu}
         >
@@ -29,38 +29,35 @@ export default function Navbar() {
         </button>
 
         {/* Company Logo */}
-        <div className="absolute left-1/2 -translate-x-1/2 lg:relative lg:left-0 lg:translate-x-0 lg:flex-1 lg:text-center">
-          <Link
-            href="/"
-            className="text-foreground text-lg font-bold tracking-tight lg:text-xl"
-          >
+        <div className="absolute left-1/2 -translate-x-1/2 lg:relative lg:left-0 lg:translate-x-0">
+          <Link href="/">
             <Image
               src="/images/logo.png"
-              width={150}
-              height={100}
+              width={120}
+              height={80}
               alt="Dream Build Luxury Glass LLC"
-              priority // Optimize for above-the-fold
+              priority
             />
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-6 text-muted-foreground">
+        <nav className="hidden lg:flex items-center gap-8 text-gray-300">
           <Link
             href="#about"
-            className="hover:text-foreground transition-colors"
+            className="hover:text-gold-500 transition-colors"
           >
             About
           </Link>
           <Link
             href="#services"
-            className="hover:text-foreground transition-colors"
+            className="hover:text-gold-500 transition-colors"
           >
             Services
           </Link>
           <Link
             href="/gallery"
-            className="hover:text-foreground transition-colors"
+            className="hover:text-gold-500 transition-colors"
           >
             Gallery
           </Link>
@@ -70,13 +67,13 @@ export default function Navbar() {
         <div className="flex items-center justify-end">
           <Link
             href="#contact"
-            className="hidden sm:block bg-primary text-primary-foreground font-bold text-sm px-5 py-2.5 rounded-xl hover:opacity-90 transition-opacity"
+            className="hidden sm:block bg-gold-500 text-deepblack font-bold text-sm px-5 py-2.5 hover:bg-gold-600 transition-colors"
           >
             Contact Us
           </Link>
           <Link
             href="#contact"
-            className="text-foreground sm:hidden"
+            className="text-gold-500 sm:hidden"
             aria-label="Contact Us"
           >
             <PhoneIcon className="h-6 w-6" />
@@ -85,32 +82,32 @@ export default function Navbar() {
 
         {/* Mobile Navigation Menu */}
         {isMenuOpen && (
-          <nav className="absolute top-full left-0 w-full bg-background/95 border-b border-border/50 lg:hidden">
-            <div className="container mx-auto flex flex-col gap-4 p-4">
+          <nav className="absolute top-full left-0 w-full bg-deepblack/95 backdrop-blur-sm border-b border-gray-800/50 lg:hidden">
+            <div className="max-w-7xl mx-auto flex flex-col gap-4 p-4">
               <Link
                 href="#about"
-                className="text-foreground hover:text-primary transition-colors"
+                className="text-white hover:text-gold-500 transition-colors"
                 onClick={toggleMenu}
               >
                 About
               </Link>
               <Link
                 href="#services"
-                className="text-foreground hover:text-primary transition-colors"
+                className="text-white hover:text-gold-500 transition-colors"
                 onClick={toggleMenu}
               >
                 Services
               </Link>
               <Link
                 href="/gallery"
-                className="text-foreground hover:text-primary transition-colors"
+                className="text-white hover:text-gold-500 transition-colors"
                 onClick={toggleMenu}
               >
                 Gallery
               </Link>
               <Link
                 href="#contact"
-                className="text-foreground hover:text-primary transition-colors"
+                className="text-white hover:text-gold-500 transition-colors"
                 onClick={toggleMenu}
               >
                 Contact

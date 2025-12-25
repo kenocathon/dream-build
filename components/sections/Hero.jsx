@@ -1,4 +1,4 @@
-// components/sections/Hero.tsx
+// components/sections/Hero.jsx
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center text-center overflow-hidden">
       <Image
-        src="https://pub-cc4555fbc9df4ef39b98f6a38afad8ee.r2.dev/Open%20Concept%20Glass%20Rail.jpeg"
+        src="https://images.dbluxuryglass.com/open-concept-glass-rail.jpeg"
         alt="Dream Build Luxury Glass - Modern open-concept glass railing"
         fill
         priority

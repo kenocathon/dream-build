@@ -1,6 +1,4 @@
-// components/sections/About.tsx   (rename to .tsx if you use TypeScript)
-"use client"; // only needed if you add interactions later
-
+// components/sections/About.jsx
 import Image from "next/image";
 import Link from "next/link";
 
@@ -13,7 +11,7 @@ export default function About() {
           <div className="order-2 lg:order-1">
             <div className="relative group">
               <Image
-                src="https://pub-cc4555fbc9df4ef39b98f6a38afad8ee.r2.dev/light-bathroom.jpeg"
+                src="https://images.dbluxuryglass.com/glass-shower-white-bathroom.jpeg"
                 alt="Dream Build Luxury Glass - Professional frameless shower installation"
                 width={800}
                 height={1000}

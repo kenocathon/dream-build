@@ -5,8 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "pub-cc4555fbc9df4ef39b98f6a38afad8ee.r2.dev",
-        port: "",
+        hostname: "images.dbluxuryglass.com",
         pathname: "/**",
       },
     ],
