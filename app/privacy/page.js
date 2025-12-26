@@ -3,7 +3,14 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Privacy Policy",
-  description: "Privacy policy for Dream Build Luxury Glass LLC website and services.",
+  description: "Privacy policy for Dream Build Luxury Glass LLC. Learn how we collect, use, and protect your information when you use our website and services.",
+  alternates: {
+    canonical: "https://dbluxuryglass.com/privacy",
+  },
+  robots: {
+    index: false,
+    follow: true,
+  },
 };
 
 export default function PrivacyPage() {

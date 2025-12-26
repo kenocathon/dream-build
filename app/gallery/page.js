@@ -3,8 +3,24 @@ import Image from "next/image";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Gallery | Dream Build Luxury Glass LLC",
-  description: "Browse our portfolio of custom glass railings, frameless showers, and architectural glass installations.",
+  title: "Gallery - Custom Glass Installation Portfolio",
+  description: "Browse 35+ photos of our custom glass installations in Atlanta. Frameless showers, glass railings, handrails & architectural glass walls. See our craftsmanship.",
+  alternates: {
+    canonical: "https://dbluxuryglass.com/gallery",
+  },
+  openGraph: {
+    title: "Gallery | Dream Build Luxury Glass LLC",
+    description: "Browse our portfolio of premium custom glass installations in Atlanta - frameless showers, glass railings, and more.",
+    url: "https://dbluxuryglass.com/gallery",
+    images: [
+      {
+        url: "https://images.dbluxuryglass.com/shower-marble-black-accent-gold-trim.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Dream Build Luxury Glass - Custom Glass Installation Gallery",
+      },
+    ],
+  },
 };
 
 const R2_BASE = "https://images.dbluxuryglass.com";

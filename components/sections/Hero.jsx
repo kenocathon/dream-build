@@ -25,19 +25,25 @@ export default function Hero() {
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
           <Link
-            href="#services"
+            href="/#services"
             className="bg-gold-500 text-deepblack px-10 py-5 text-lg font-bold uppercase tracking-wider hover:bg-gold-600 transition-all hover:scale-105"
           >
             Explore Services
           </Link>
           <Link
-            href="#contact"
+            href="/#contact"
             className="border-2 border-gold-500 text-gold-500 px-10 py-5 text-lg font-bold uppercase tracking-wider hover:bg-gold-500 hover:text-deepblack transition-all"
           >
             Get Free Quote
           </Link>
         </div>
-        <ChevronDown className="absolute bottom-10 left-1/2 -translate-x-1/2 w-9 h-9 text-gold-500 animate-bounce" />
+      </div>
+
+      {/* Bouncing Arrow - positioned relative to section */}
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center z-10">
+        <Link href="/#about" aria-label="Scroll to About section">
+          <ChevronDown className="w-10 h-10 text-gold-500 animate-bounce cursor-pointer hover:text-gold-400 transition-colors" />
+        </Link>
       </div>
     </section>
   );

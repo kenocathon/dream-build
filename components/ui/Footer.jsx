@@ -15,13 +15,19 @@ export default function Footer() {
         </div>
         <nav className="flex flex-wrap gap-6 justify-center text-gray-400">
           <Link
-            href="#about"
+            href="/"
+            className="hover:text-gold-500 transition-colors"
+          >
+            Home
+          </Link>
+          <Link
+            href="/#about"
             className="hover:text-gold-500 transition-colors"
           >
             About
           </Link>
           <Link
-            href="#services"
+            href="/#services"
             className="hover:text-gold-500 transition-colors"
           >
             Services
@@ -33,7 +39,7 @@ export default function Footer() {
             Gallery
           </Link>
           <Link
-            href="#contact"
+            href="/#contact"
             className="hover:text-gold-500 transition-colors"
           >
             Contact
@@ -42,7 +48,7 @@ export default function Footer() {
             href="/privacy"
             className="hover:text-gold-500 transition-colors"
           >
-            Privacy Policy
+            Privacy
           </Link>
         </nav>
         <div className="flex flex-col items-center md:items-end gap-2">
