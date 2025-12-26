@@ -1,9 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import {
   SparklesIcon,
   ClipboardIcon,
@@ -12,9 +10,6 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function PostsPage() {
-  const searchParams = useSearchParams();
-  const selectedJobId = searchParams.get("job");
-
   const [jobs, setJobs] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -22,20 +17,23 @@ export default function PostsPage() {
   const [copied, setCopied] = useState(null);
 
   // Form state
-  const [selectedJob, setSelectedJob] = useState(selectedJobId || "");
+  const [selectedJob, setSelectedJob] = useState("");
   const [platform, setPlatform] = useState("both");
   const [generatedContent, setGeneratedContent] = useState([]);
   const [selectedContent, setSelectedContent] = useState("");
 
   useEffect(() => {
     fetchData();
-  }, []);
 
-  useEffect(() => {
-    if (selectedJobId) {
-      setSelectedJob(selectedJobId);
+    // Get job ID from URL if present
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const jobId = params.get("job");
+      if (jobId) {
+        setSelectedJob(jobId);
+      }
     }
-  }, [selectedJobId]);
+  }, []);
 
   const fetchData = async () => {
     try {
