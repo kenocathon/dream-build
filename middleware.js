@@ -3,13 +3,13 @@ import { NextResponse } from 'next/server';
 export function middleware(request) {
   const { pathname } = request.nextUrl;
 
-  // Only protect /admin routes (except the login page itself)
-  if (pathname.startsWith('/admin') && pathname !== '/admin') {
+  // Only protect /portal routes (except the login page itself)
+  if (pathname.startsWith('/portal') && pathname !== '/portal') {
     const sessionCookie = request.cookies.get('admin_session');
 
     if (!sessionCookie) {
       // Redirect to admin login
-      return NextResponse.redirect(new URL('/admin', request.url));
+      return NextResponse.redirect(new URL('/portal', request.url));
     }
 
     // Validate session (check if token is not too old - 24 hours)
@@ -37,5 +37,5 @@ export function middleware(request) {
 }
 
 export const config = {
-  matcher: ['/admin/:path*'],
+  matcher: ['/portal/:path*'],
 };

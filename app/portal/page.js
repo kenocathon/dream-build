@@ -29,7 +29,7 @@ export default function AdminLogin() {
         return;
       }
 
-      router.push("/admin/dashboard");
+      router.push("/portal/dashboard");
     } catch (err) {
       setError("Network error. Please try again.");
     } finally {

@@ -15,10 +15,10 @@ import {
 import { useState } from "react";
 
 const navItems = [
-  { name: "Dashboard", href: "/admin/dashboard", icon: HomeIcon },
-  { name: "Jobs", href: "/admin/jobs", icon: BriefcaseIcon },
-  { name: "Social Posts", href: "/admin/posts", icon: ChatBubbleLeftRightIcon },
-  { name: "Analytics", href: "/admin/analytics", icon: ChartBarIcon },
+  { name: "Dashboard", href: "/portal/dashboard", icon: HomeIcon },
+  { name: "Jobs", href: "/portal/jobs", icon: BriefcaseIcon },
+  { name: "Social Posts", href: "/portal/posts", icon: ChatBubbleLeftRightIcon },
+  { name: "Analytics", href: "/portal/analytics", icon: ChartBarIcon },
 ];
 
 export default function AdminNav() {
@@ -29,7 +29,7 @@ export default function AdminNav() {
   const handleLogout = async () => {
     try {
       await fetch("/api/admin/auth/logout", { method: "POST" });
-      router.push("/admin");
+      router.push("/portal");
     } catch (err) {
       console.error("Logout error:", err);
     }
@@ -39,7 +39,7 @@ export default function AdminNav() {
     <>
       {/* Logo */}
       <div className="p-4 border-b border-gray-800">
-        <Link href="/admin/dashboard">
+        <Link href="/portal/dashboard">
           <Image
             src="/images/logo.png"
             width={160}
@@ -105,7 +105,7 @@ export default function AdminNav() {
       {/* Mobile Header */}
       <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-gray-900 border-b border-gray-800">
         <div className="flex items-center justify-between px-4 h-16">
-          <Link href="/admin/dashboard">
+          <Link href="/portal/dashboard">
             <Image
               src="/images/logo.png"
               width={120}

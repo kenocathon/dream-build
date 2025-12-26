@@ -60,7 +60,7 @@ export default function JobsPage() {
           <p className="text-gray-400 mt-1">Manage your completed projects</p>
         </div>
         <Link
-          href="/admin/jobs/new"
+          href="/portal/jobs/new"
           className="inline-flex items-center gap-2 bg-gold-500 text-deepblack font-bold px-6 py-3 rounded-lg hover:bg-gold-600 transition-colors"
         >
           <PlusIcon className="h-5 w-5" />
@@ -77,7 +77,7 @@ export default function JobsPage() {
         <div className="bg-gray-900 border border-gray-800 rounded-lg p-12 text-center">
           <p className="text-gray-400 mb-4">No jobs yet. Add your first completed project!</p>
           <Link
-            href="/admin/jobs/new"
+            href="/portal/jobs/new"
             className="inline-flex items-center gap-2 bg-gold-500 text-deepblack font-bold px-6 py-3 rounded-lg hover:bg-gold-600 transition-colors"
           >
             <PlusIcon className="h-5 w-5" />
@@ -120,14 +120,14 @@ export default function JobsPage() {
                 {/* Actions */}
                 <div className="flex items-center gap-2">
                   <Link
-                    href={`/admin/posts?job=${job.id}`}
+                    href={`/portal/posts?job=${job.id}`}
                     className="flex-1 inline-flex items-center justify-center gap-2 bg-gold-500 text-deepblack font-medium px-4 py-2 rounded-lg hover:bg-gold-600 transition-colors text-sm"
                   >
                     <ChatBubbleLeftRightIcon className="h-4 w-4" />
                     Create Post
                   </Link>
                   <Link
-                    href={`/admin/jobs/${job.id}`}
+                    href={`/portal/jobs/${job.id}`}
                     className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors"
                   >
                     <PencilIcon className="h-5 w-5" />

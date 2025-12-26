@@ -41,21 +41,21 @@ export default function AdminDashboard() {
       name: "Total Jobs",
       value: stats.jobs,
       icon: BriefcaseIcon,
-      href: "/admin/jobs",
+      href: "/portal/jobs",
       color: "bg-blue-500",
     },
     {
       name: "Social Posts",
       value: stats.posts,
       icon: ChatBubbleLeftRightIcon,
-      href: "/admin/posts",
+      href: "/portal/posts",
       color: "bg-purple-500",
     },
     {
       name: "Total Leads",
       value: stats.leads,
       icon: UserGroupIcon,
-      href: "/admin/analytics",
+      href: "/portal/analytics",
       color: "bg-green-500",
     },
   ];
@@ -69,7 +69,7 @@ export default function AdminDashboard() {
           <p className="text-gray-400 mt-1">Welcome back! Here's your overview.</p>
         </div>
         <Link
-          href="/admin/jobs/new"
+          href="/portal/jobs/new"
           className="inline-flex items-center gap-2 bg-gold-500 text-deepblack font-bold px-6 py-3 rounded-lg hover:bg-gold-600 transition-colors"
         >
           <PlusIcon className="h-5 w-5" />
@@ -107,7 +107,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold text-white">Recent Leads</h2>
             <Link
-              href="/admin/analytics"
+              href="/portal/analytics"
               className="text-gold-500 hover:text-gold-400 text-sm"
             >
               View all &rarr;
@@ -142,7 +142,7 @@ export default function AdminDashboard() {
           <h2 className="text-xl font-bold text-white mb-4">Quick Actions</h2>
           <div className="space-y-3">
             <Link
-              href="/admin/jobs/new"
+              href="/portal/jobs/new"
               className="flex items-center gap-3 p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
             >
               <BriefcaseIcon className="h-5 w-5 text-gold-500" />
@@ -152,7 +152,7 @@ export default function AdminDashboard() {
               </div>
             </Link>
             <Link
-              href="/admin/posts"
+              href="/portal/posts"
               className="flex items-center gap-3 p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
             >
               <ChatBubbleLeftRightIcon className="h-5 w-5 text-gold-500" />
@@ -162,7 +162,7 @@ export default function AdminDashboard() {
               </div>
             </Link>
             <Link
-              href="/admin/analytics"
+              href="/portal/analytics"
               className="flex items-center gap-3 p-4 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors"
             >
               <UserGroupIcon className="h-5 w-5 text-gold-500" />
