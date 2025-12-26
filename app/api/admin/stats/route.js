@@ -20,10 +20,16 @@ export async function GET() {
       .order('created_at', { ascending: false })
       .limit(5);
 
+    // Get campaign count
+    const { count: campaignCount } = await supabase
+      .from('campaigns')
+      .select('*', { count: 'exact', head: true });
+
     return NextResponse.json({
       jobs: jobCount || 0,
       posts: postCount || 0,
       leads: leadCount || 0,
+      campaigns: campaignCount || 0,
       recentLeads: leads || [],
     });
   } catch (error) {
@@ -32,6 +38,7 @@ export async function GET() {
       jobs: 0,
       posts: 0,
       leads: 0,
+      campaigns: 0,
       recentLeads: [],
     });
   }

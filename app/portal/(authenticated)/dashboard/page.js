@@ -6,6 +6,7 @@ import {
   BriefcaseIcon,
   ChatBubbleLeftRightIcon,
   UserGroupIcon,
+  MegaphoneIcon,
   PlusIcon,
 } from "@heroicons/react/24/outline";
 
@@ -14,6 +15,7 @@ export default function AdminDashboard() {
     jobs: 0,
     posts: 0,
     leads: 0,
+    campaigns: 0,
     recentLeads: [],
   });
   const [loading, setLoading] = useState(true);
@@ -52,6 +54,13 @@ export default function AdminDashboard() {
       color: "bg-purple-500",
     },
     {
+      name: "Campaigns",
+      value: stats.campaigns,
+      icon: MegaphoneIcon,
+      href: "/portal/campaigns",
+      color: "bg-orange-500",
+    },
+    {
       name: "Total Leads",
       value: stats.leads,
       icon: UserGroupIcon,
@@ -78,7 +87,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         {statCards.map((stat) => (
           <Link
             key={stat.name}
