@@ -15,7 +15,8 @@ import {
   LineChart,
   Line,
 } from "recharts";
-import { UserGroupIcon, ArrowTrendingUpIcon, TrashIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { UserGroupIcon, ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 
 const COLORS = ["#D4AF37", "#60A5FA", "#34D399", "#F87171", "#A78BFA", "#FBBF24"];
 
@@ -25,7 +26,6 @@ export default function AnalyticsPage() {
     bySource: [],
     byDate: [],
     byCampaign: [],
-    recentLeads: [],
   });
   const [loading, setLoading] = useState(true);
 
@@ -44,25 +44,6 @@ export default function AnalyticsPage() {
       console.error("Failed to fetch analytics:", error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const deleteLead = async (id) => {
-    if (!confirm("Delete this lead? This cannot be undone.")) return;
-
-    try {
-      const res = await fetch(`/api/admin/leads/${id}`, {
-        method: "DELETE",
-      });
-      if (res.ok) {
-        setData({
-          ...data,
-          total: data.total - 1,
-          recentLeads: data.recentLeads.filter((l) => l.id !== id),
-        });
-      }
-    } catch (error) {
-      console.error("Delete failed:", error);
     }
   };
 
@@ -255,58 +236,22 @@ export default function AnalyticsPage() {
         </div>
       )}
 
-      {/* Recent Leads Table */}
+      {/* Manage Leads Link */}
       <div className="bg-gray-900 border border-gray-800 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-white mb-6">Recent Leads</h2>
-        {data.recentLeads.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-gray-800">
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Name</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Email</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Phone</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Source</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Campaign</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Date</th>
-                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.recentLeads.map((lead) => (
-                  <tr key={lead.id} className="border-b border-gray-800/50 hover:bg-gray-800/50">
-                    <td className="py-3 px-4 text-white">{lead.name}</td>
-                    <td className="py-3 px-4 text-gray-300">{lead.email}</td>
-                    <td className="py-3 px-4 text-gray-300">{lead.phone}</td>
-                    <td className="py-3 px-4">
-                      <span className="px-2 py-1 bg-gray-700 text-gray-300 text-xs rounded">
-                        {lead.source || "direct"}
-                      </span>
-                    </td>
-                    <td className="py-3 px-4 text-gray-400 text-sm">
-                      {lead.utm_campaign || "-"}
-                    </td>
-                    <td className="py-3 px-4 text-gray-400 text-sm">
-                      {new Date(lead.created_at).toLocaleDateString()}
-                    </td>
-                    <td className="py-3 px-4">
-                      <button
-                        onClick={() => deleteLead(lead.id)}
-                        className="text-gray-400 hover:text-red-400 transition-colors"
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-bold text-white mb-2">Manage Your Leads</h2>
+            <p className="text-gray-400">
+              View all leads, update status, and send emails.
+            </p>
           </div>
-        ) : (
-          <p className="text-gray-400">
-            No leads yet. They will appear here when customers submit the contact form.
-          </p>
-        )}
+          <Link
+            href="/portal/leads"
+            className="bg-gold-500 text-deepblack font-bold px-6 py-3 rounded-lg hover:bg-gold-600 transition-colors whitespace-nowrap"
+          >
+            View Leads
+          </Link>
+        </div>
       </div>
 
       {/* Campaigns Link */}

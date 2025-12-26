@@ -12,6 +12,8 @@ import {
   Bars3Icon,
   XMarkIcon,
   MegaphoneIcon,
+  UserGroupIcon,
+  EnvelopeIcon,
 } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
@@ -19,8 +21,10 @@ const navItems = [
   { name: "Dashboard", href: "/portal/dashboard", icon: HomeIcon },
   { name: "Jobs", href: "/portal/jobs", icon: BriefcaseIcon },
   { name: "Social Posts", href: "/portal/posts", icon: ChatBubbleLeftRightIcon },
+  { name: "Leads", href: "/portal/leads", icon: UserGroupIcon },
   { name: "Campaigns", href: "/portal/campaigns", icon: MegaphoneIcon },
   { name: "Analytics", href: "/portal/analytics", icon: ChartBarIcon },
+  { name: "Email", href: "/portal/email", icon: EnvelopeIcon },
 ];
 
 export default function AdminNav() {
