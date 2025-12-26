@@ -69,6 +69,10 @@ export default function Footer() {
       <div className="text-center text-gray-500 text-sm mt-8">
         &copy; {new Date().getFullYear()} Dream Build Luxury Glass LLC. All
         rights reserved.
+        <span className="mx-2">|</span>
+        <Link href="/portal" className="hover:text-gray-400 transition-colors">
+          Admin
+        </Link>
       </div>
     </footer>
   );
