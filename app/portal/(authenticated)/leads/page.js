@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   EnvelopeIcon,
@@ -167,9 +167,8 @@ export default function LeadsPage() {
               </thead>
               <tbody>
                 {leads.map((lead) => (
-                  <>
+                  <React.Fragment key={lead.id}>
                     <tr
-                      key={lead.id}
                       className="border-b border-gray-800/50 hover:bg-gray-800/30 cursor-pointer"
                       onClick={() => toggleExpand(lead.id)}
                     >
@@ -233,7 +232,7 @@ export default function LeadsPage() {
                     </tr>
                     {/* Expanded Email History */}
                     {expandedLead === lead.id && (
-                      <tr key={`${lead.id}-expanded`}>
+                      <tr>
                         <td colSpan={8} className="bg-gray-800/50 px-8 py-4">
                           <div className="space-y-4">
                             <div className="flex items-center justify-between">
@@ -277,7 +276,7 @@ export default function LeadsPage() {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>

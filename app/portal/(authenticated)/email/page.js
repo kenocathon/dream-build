@@ -1,8 +1,6 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import {
@@ -19,7 +17,7 @@ const AI_TONES = [
   { value: "generate", label: "Generate New", description: "Create from scratch" },
 ];
 
-export default function EmailPage() {
+function EmailComposer() {
   const searchParams = useSearchParams();
   const leadId = searchParams.get("lead");
 
@@ -340,5 +338,13 @@ export default function EmailPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function EmailPage() {
+  return (
+    <Suspense fallback={<div className="text-gray-400">Loading...</div>}>
+      <EmailComposer />
+    </Suspense>
   );
 }
