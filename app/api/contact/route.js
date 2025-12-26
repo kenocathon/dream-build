@@ -89,7 +89,9 @@ function businessEmailTemplate({ name, phone, email, message }) {
 
     <div style="background-color: #f9f9f9; border-left: 4px solid ${GOLD}; padding: 20px; margin-top: 20px;">
       <strong style="color: ${DARK}; display: block; margin-bottom: 10px;">Project Details:</strong>
-      <p style="color: #555555; margin: 0; line-height: 1.6;">${message || "No details provided"}</p>
+      <p style="color: #555555; margin: 0; line-height: 1.6;">${
+        message || "No details provided"
+      }</p>
     </div>
 
     <div style="margin-top: 30px; padding: 20px; background-color: #f0f7ff; border-radius: 6px; text-align: center;">
@@ -144,12 +146,21 @@ function summaryEmailTemplate({ name, phone, email, message }) {
 
     <div style="background-color: ${DARK}; border-radius: 8px; padding: 20px;">
       <p style="color: ${GOLD}; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0;">Project Details</p>
-      <p style="color: #ffffff; margin: 0; line-height: 1.6; font-size: 14px;">${message || "No details provided"}</p>
+      <p style="color: #ffffff; margin: 0; line-height: 1.6; font-size: 14px;">${
+        message || "No details provided"
+      }</p>
     </div>
 
     <div style="margin-top: 25px; text-align: center;">
       <p style="color: #888; font-size: 12px; margin: 0;">
-        Received on ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
+        Received on ${new Date().toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        })}
       </p>
     </div>
   `);
@@ -195,7 +206,16 @@ function customerEmailTemplate({ name }) {
 
 export async function POST(request) {
   try {
-    const { name, phone, email, message } = await request.json();
+    const {
+      name,
+      phone,
+      email,
+      message,
+      source,
+      utm_source,
+      utm_medium,
+      utm_campaign,
+    } = await request.json();
 
     // Validate required fields
     if (!name || !phone || !email) {
@@ -205,13 +225,38 @@ export async function POST(request) {
       );
     }
 
+    // Save lead to Supabase (if configured)
+    try {
+      const { createClient } = await import("@supabase/supabase-js");
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+      const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+      if (supabaseUrl && supabaseKey) {
+        const supabase = createClient(supabaseUrl, supabaseKey);
+        await supabase.from("leads").insert([
+          {
+            name,
+            email,
+            phone,
+            source: source || "direct",
+            utm_source: utm_source || null,
+            utm_medium: utm_medium || null,
+            utm_campaign: utm_campaign || null,
+          },
+        ]);
+      }
+    } catch (dbError) {
+      console.error("Failed to save lead to database:", dbError);
+      // Continue with email sending even if DB fails
+    }
+
     // Initialize Resend with API key
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     // Send email to business
     const { data, error } = await resend.emails.send({
       from: "Dream Build Website <noreply@dbluxuryglass.com>",
-      to: ["support@dbluxuryglass.com"],
+      to: ["nationdreambuild@outlook.com"],
       subject: `New Quote Request from ${name}`,
       html: businessEmailTemplate({ name, phone, email, message }),
     });

@@ -1,12 +1,41 @@
 // components/sections/Contact.jsx
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [utmParams, setUtmParams] = useState({});
+
+  // Capture UTM parameters on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      setUtmParams({
+        utm_source: params.get("utm_source") || "",
+        utm_medium: params.get("utm_medium") || "",
+        utm_campaign: params.get("utm_campaign") || "",
+      });
+    }
+  }, []);
+
+  // Determine lead source from UTM or referrer
+  const getLeadSource = () => {
+    if (utmParams.utm_source) {
+      return utmParams.utm_source;
+    }
+    if (typeof window !== "undefined" && document.referrer) {
+      const referrer = new URL(document.referrer).hostname;
+      if (referrer.includes("facebook")) return "facebook";
+      if (referrer.includes("instagram")) return "instagram";
+      if (referrer.includes("google")) return "google";
+      if (referrer.includes("bing")) return "bing";
+      return "referral";
+    }
+    return "direct";
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,6 +48,8 @@ export default function Contact() {
       phone: formData.get("phone"),
       email: formData.get("email"),
       message: formData.get("message"),
+      source: getLeadSource(),
+      ...utmParams,
     };
 
     try {
