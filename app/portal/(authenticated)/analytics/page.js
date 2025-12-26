@@ -15,7 +15,7 @@ import {
   LineChart,
   Line,
 } from "recharts";
-import { UserGroupIcon, ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
+import { UserGroupIcon, ArrowTrendingUpIcon, TrashIcon } from "@heroicons/react/24/outline";
 
 const COLORS = ["#D4AF37", "#60A5FA", "#34D399", "#F87171", "#A78BFA", "#FBBF24"];
 
@@ -44,6 +44,25 @@ export default function AnalyticsPage() {
       console.error("Failed to fetch analytics:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const deleteLead = async (id) => {
+    if (!confirm("Delete this lead? This cannot be undone.")) return;
+
+    try {
+      const res = await fetch(`/api/admin/leads/${id}`, {
+        method: "DELETE",
+      });
+      if (res.ok) {
+        setData({
+          ...data,
+          total: data.total - 1,
+          recentLeads: data.recentLeads.filter((l) => l.id !== id),
+        });
+      }
+    } catch (error) {
+      console.error("Delete failed:", error);
     }
   };
 
@@ -250,6 +269,7 @@ export default function AnalyticsPage() {
                   <th className="text-left py-3 px-4 text-gray-400 font-medium">Source</th>
                   <th className="text-left py-3 px-4 text-gray-400 font-medium">Campaign</th>
                   <th className="text-left py-3 px-4 text-gray-400 font-medium">Date</th>
+                  <th className="text-left py-3 px-4 text-gray-400 font-medium">Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -269,6 +289,14 @@ export default function AnalyticsPage() {
                     <td className="py-3 px-4 text-gray-400 text-sm">
                       {new Date(lead.created_at).toLocaleDateString()}
                     </td>
+                    <td className="py-3 px-4">
+                      <button
+                        onClick={() => deleteLead(lead.id)}
+                        className="text-gray-400 hover:text-red-400 transition-colors"
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -281,31 +309,21 @@ export default function AnalyticsPage() {
         )}
       </div>
 
-      {/* UTM Link Generator */}
+      {/* Campaigns Link */}
       <div className="bg-gray-900 border border-gray-800 rounded-lg p-6 mt-8">
-        <h2 className="text-xl font-bold text-white mb-4">UTM Link Generator</h2>
-        <p className="text-gray-400 mb-4">
-          Use these links in your social media posts to track where leads come from:
-        </p>
-        <div className="space-y-3">
-          <div className="flex items-center gap-4 p-3 bg-gray-800 rounded-lg">
-            <span className="text-gray-400 w-24">Facebook:</span>
-            <code className="text-gold-500 text-sm flex-1 break-all">
-              https://dbluxuryglass.com?utm_source=facebook&utm_medium=social&utm_campaign=YOUR_CAMPAIGN
-            </code>
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-xl font-bold text-white mb-2">Track Your Marketing</h2>
+            <p className="text-gray-400">
+              Create trackable links and QR codes to see which campaigns bring in leads.
+            </p>
           </div>
-          <div className="flex items-center gap-4 p-3 bg-gray-800 rounded-lg">
-            <span className="text-gray-400 w-24">Instagram:</span>
-            <code className="text-gold-500 text-sm flex-1 break-all">
-              https://dbluxuryglass.com?utm_source=instagram&utm_medium=social&utm_campaign=YOUR_CAMPAIGN
-            </code>
-          </div>
-          <div className="flex items-center gap-4 p-3 bg-gray-800 rounded-lg">
-            <span className="text-gray-400 w-24">Google Ads:</span>
-            <code className="text-gold-500 text-sm flex-1 break-all">
-              https://dbluxuryglass.com?utm_source=google&utm_medium=cpc&utm_campaign=YOUR_CAMPAIGN
-            </code>
-          </div>
+          <a
+            href="/portal/campaigns"
+            className="bg-gold-500 text-deepblack font-bold px-6 py-3 rounded-lg hover:bg-gold-600 transition-colors whitespace-nowrap"
+          >
+            Create Campaign
+          </a>
         </div>
       </div>
     </div>
