@@ -42,9 +42,9 @@ function emailWrapper(content) {
                 Elevate Your Lifestyle
               </p>
               <p style="color: #888888; font-size: 12px; margin: 15px 0 0 0;">
-                <a href="tel:+14047078819" style="color: ${GOLD}; text-decoration: none;">(404) 707-8819</a>
+                <a href="https://dbluxuryglass.com" style="color: ${GOLD}; text-decoration: none;">dbluxuryglass.com</a>
                 &nbsp;|&nbsp;
-                <a href="mailto:support@dbluxuryglass.com" style="color: ${GOLD}; text-decoration: none;">support@dbluxuryglass.com</a>
+                <a href="tel:+14047078819" style="color: ${GOLD}; text-decoration: none;">(404) 707-8819</a>
               </p>
               <p style="color: #666666; font-size: 11px; margin: 20px 0 0 0;">
                 © ${new Date().getFullYear()} Dream Build Luxury Glass LLC. All rights reserved.
@@ -255,8 +255,9 @@ export async function POST(request) {
 
     // Send email to business
     const { data, error } = await resend.emails.send({
-      from: "Dream Build Website <noreply@dbluxuryglass.com>",
+      from: "Dream Build Website <quotes@dbluxuryglass.com>",
       to: ["nation_dreambuild@outlook.com"],
+      replyTo: email,
       subject: `New Quote Request from ${name}`,
       html: businessEmailTemplate({ name, phone, email, message }),
     });
@@ -271,16 +272,18 @@ export async function POST(request) {
 
     // Send confirmation email to customer
     await resend.emails.send({
-      from: "Dream Build Luxury Glass <noreply@dbluxuryglass.com>",
+      from: "Dream Build Luxury Glass <hello@dbluxuryglass.com>",
       to: [email],
+      replyTo: "support@dbluxuryglass.com",
       subject: "We received your quote request!",
       html: customerEmailTemplate({ name }),
     });
 
     // Send summary email to management
     await resend.emails.send({
-      from: "Dream Build Website <noreply@dbluxuryglass.com>",
+      from: "Dream Build Website <quotes@dbluxuryglass.com>",
       to: ["nationdreambuild@outlook.com"],
+      replyTo: email,
       subject: `Lead Summary: ${name}`,
       html: summaryEmailTemplate({ name, phone, email, message }),
     });
