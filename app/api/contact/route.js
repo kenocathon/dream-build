@@ -256,7 +256,7 @@ export async function POST(request) {
     // Send email to business
     const { data, error } = await resend.emails.send({
       from: "Dream Build Website <noreply@dbluxuryglass.com>",
-      to: ["nationdreambuild@outlook.com"],
+      to: ["nation_dreambuild@outlook.com"],
       subject: `New Quote Request from ${name}`,
       html: businessEmailTemplate({ name, phone, email, message }),
     });
