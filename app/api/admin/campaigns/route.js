@@ -22,7 +22,7 @@ export async function GET() {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { name, source, medium, placement, location, full_url, short_url } = body;
+    const { name, source, medium, placement, location, full_url, short_url, image_url } = body;
 
     if (!name || !source || !medium || !full_url) {
       return NextResponse.json(
@@ -41,6 +41,7 @@ export async function POST(request) {
         location: location || null,
         full_url,
         short_url: short_url || null,
+        image_url: image_url || null,
       }])
       .select()
       .single();

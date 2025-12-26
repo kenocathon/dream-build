@@ -19,11 +19,28 @@ Website: dbluxuryglass.com
 
 export async function POST(request) {
   try {
-    const { jobName, jobDescription, platform } = await request.json();
+    const {
+      jobName,
+      jobDescription,
+      platform,
+      sourceType = 'job',
+      campaignName,
+      campaignUrl,
+      campaignSource,
+      campaignPlacement
+    } = await request.json();
 
-    if (!jobName) {
+    // Validate based on source type
+    if (sourceType === 'job' && !jobName) {
       return NextResponse.json(
         { error: 'Job name is required' },
+        { status: 400 }
+      );
+    }
+
+    if (sourceType === 'campaign' && !campaignName) {
+      return NextResponse.json(
+        { error: 'Campaign name is required' },
         { status: 400 }
       );
     }
@@ -56,7 +73,45 @@ export async function POST(request) {
         - Minimal hashtags (2-3 max)
       `;
 
-    const prompt = `
+    let prompt;
+
+    if (sourceType === 'campaign') {
+      // Campaign-based post generation
+      const placementContext = campaignPlacement
+        ? `This campaign uses ${campaignPlacement} for physical marketing (e.g., QR codes on coasters at restaurants).`
+        : '';
+
+      prompt = `
+${BRAND_CONTEXT}
+
+Create a ${platform || 'social media'} post to promote our marketing campaign:
+
+Campaign Name: ${campaignName}
+Trackable Link: ${campaignUrl}
+Source Platform: ${campaignSource}
+${placementContext}
+
+The goal is to drive traffic to our website through this campaign link. The post should:
+- Encourage people to visit our website or learn more about our services
+- Create urgency or interest in contacting us for a free quote
+- Mention we serve the North Atlanta area
+- Include the link: ${campaignUrl}
+
+Requirements:
+${platformInstructions}
+
+Generate 2 different variations of the post. Each should be engaging and drive action.
+Format the response as JSON with this structure:
+{
+  "variations": [
+    { "content": "post content here" },
+    { "content": "another variation here" }
+  ]
+}
+`;
+    } else {
+      // Job-based post generation (original behavior)
+      prompt = `
 ${BRAND_CONTEXT}
 
 Create a ${platform || 'social media'} post for the following completed project:
@@ -76,6 +131,7 @@ Format the response as JSON with this structure:
   ]
 }
 `;
+    }
 
     const completion = await openai.chat.completions.create({
       model: 'gpt-4',

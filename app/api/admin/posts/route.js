@@ -6,7 +6,7 @@ export async function GET() {
   try {
     const { data, error } = await supabase
       .from('social_posts')
-      .select('*, jobs(name, image_url)')
+      .select('*, jobs(name, image_url), campaigns(name, source)')
       .order('created_at', { ascending: false });
 
     if (error) throw error;
@@ -25,7 +25,7 @@ export async function GET() {
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { job_id, platform, content, image_url, status, scheduled_for } = body;
+    const { job_id, campaign_id, platform, content, image_url, status, scheduled_for } = body;
 
     if (!content) {
       return NextResponse.json(
@@ -37,14 +37,15 @@ export async function POST(request) {
     const { data, error } = await supabase
       .from('social_posts')
       .insert([{
-        job_id,
+        job_id: job_id || null,
+        campaign_id: campaign_id || null,
         platform: platform || 'both',
         content,
         image_url,
         status: status || 'draft',
         scheduled_for,
       }])
-      .select()
+      .select('*, jobs(name, image_url), campaigns(name, source)')
       .single();
 
     if (error) throw error;

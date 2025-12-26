@@ -11,6 +11,7 @@ import {
   ArrowDownTrayIcon,
   ShareIcon,
   TrashIcon,
+  PhotoIcon,
 } from "@heroicons/react/24/outline";
 
 const SOURCES = [
@@ -57,6 +58,9 @@ export default function CampaignsPage() {
   const [showQR, setShowQR] = useState(false);
   const [savedCampaigns, setSavedCampaigns] = useState([]);
   const [selectedCampaign, setSelectedCampaign] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
+  const [uploading, setUploading] = useState(false);
   const qrRef = useRef(null);
 
   const baseUrl = "https://dbluxuryglass.com";
@@ -78,6 +82,40 @@ export default function CampaignsPage() {
     }
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Preview
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+
+    // Upload to R2 via API
+    setUploading(true);
+    try {
+      const uploadForm = new FormData();
+      uploadForm.append("file", file);
+
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: uploadForm,
+      });
+
+      if (!res.ok) throw new Error("Upload failed");
+
+      const { url } = await res.json();
+      setImageUrl(url);
+    } catch (err) {
+      alert("Failed to upload image");
+      setImagePreview(null);
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const saveCampaign = async () => {
     if (!generatedUrl) return;
 
@@ -94,6 +132,7 @@ export default function CampaignsPage() {
           location: location || null,
           full_url: generatedUrl,
           short_url: shortUrl || null,
+          image_url: imageUrl || null,
         }),
       });
 
@@ -112,6 +151,8 @@ export default function CampaignsPage() {
       setShortUrl("");
       setShowQR(false);
       setSelectedCampaign(null);
+      setImageUrl("");
+      setImagePreview(null);
     } catch (error) {
       alert("Failed to save campaign: " + error.message);
     } finally {
@@ -147,6 +188,8 @@ export default function CampaignsPage() {
     setMedium(c.medium);
     setPlacement(c.placement || "");
     setLocation(c.location || "");
+    setImageUrl(c.image_url || "");
+    setImagePreview(c.image_url || null);
 
     // Scroll to top to see the QR code
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -404,6 +447,51 @@ export default function CampaignsPage() {
                 placeholder="e.g., spring-2025, shower-promo"
                 className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-gold-500"
               />
+            </div>
+
+            {/* Campaign Image (Optional) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                Campaign Image (Optional)
+              </label>
+              <div className="border-2 border-dashed border-gray-700 rounded-lg p-4 text-center hover:border-gray-600 transition-colors">
+                {imagePreview ? (
+                  <div className="relative">
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="max-h-32 mx-auto rounded-lg"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImagePreview(null);
+                        setImageUrl("");
+                      }}
+                      className="mt-2 text-red-400 hover:text-red-300 text-sm"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                ) : (
+                  <label className="cursor-pointer block">
+                    <PhotoIcon className="h-8 w-8 mx-auto text-gray-500 mb-2" />
+                    <p className="text-gray-400 text-sm">
+                      {uploading ? "Uploading..." : "Click to upload"}
+                    </p>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      disabled={uploading}
+                      className="hidden"
+                    />
+                  </label>
+                )}
+              </div>
+              <p className="text-gray-500 text-xs mt-1">
+                Add an image to use when generating social posts for this campaign
+              </p>
             </div>
 
             {/* Generate Button */}

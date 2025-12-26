@@ -7,17 +7,22 @@ import {
   ClipboardIcon,
   CheckIcon,
   TrashIcon,
+  BriefcaseIcon,
+  MegaphoneIcon,
 } from "@heroicons/react/24/outline";
 
 export default function PostsPage() {
   const [jobs, setJobs] = useState([]);
+  const [campaigns, setCampaigns] = useState([]);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [copied, setCopied] = useState(null);
 
   // Form state
+  const [sourceType, setSourceType] = useState("job"); // "job" or "campaign"
   const [selectedJob, setSelectedJob] = useState("");
+  const [selectedCampaign, setSelectedCampaign] = useState("");
   const [platform, setPlatform] = useState("both");
   const [generatedContent, setGeneratedContent] = useState([]);
   const [selectedContent, setSelectedContent] = useState("");
@@ -37,13 +42,15 @@ export default function PostsPage() {
 
   const fetchData = async () => {
     try {
-      const [jobsRes, postsRes] = await Promise.all([
+      const [jobsRes, postsRes, campaignsRes] = await Promise.all([
         fetch("/api/admin/jobs"),
         fetch("/api/admin/posts"),
+        fetch("/api/admin/campaigns"),
       ]);
 
       if (jobsRes.ok) setJobs(await jobsRes.json());
       if (postsRes.ok) setPosts(await postsRes.json());
+      if (campaignsRes.ok) setCampaigns(await campaignsRes.json());
     } catch (error) {
       console.error("Failed to fetch data:", error);
     } finally {
@@ -52,23 +59,37 @@ export default function PostsPage() {
   };
 
   const handleGenerate = async () => {
-    if (!selectedJob) return;
-
-    const job = jobs.find((j) => j.id === selectedJob);
-    if (!job) return;
+    // Validate selection based on source type
+    if (sourceType === "job" && !selectedJob) return;
+    if (sourceType === "campaign" && !selectedCampaign) return;
 
     setGenerating(true);
     setGeneratedContent([]);
 
     try {
+      let requestBody = {
+        platform: platform === "both" ? "instagram" : platform,
+        sourceType,
+      };
+
+      if (sourceType === "job") {
+        const job = jobs.find((j) => j.id === selectedJob);
+        if (!job) return;
+        requestBody.jobName = job.name;
+        requestBody.jobDescription = job.description;
+      } else {
+        const campaign = campaigns.find((c) => c.id === selectedCampaign);
+        if (!campaign) return;
+        requestBody.campaignName = campaign.name;
+        requestBody.campaignUrl = campaign.short_url || campaign.full_url;
+        requestBody.campaignSource = campaign.source;
+        requestBody.campaignPlacement = campaign.placement;
+      }
+
       const res = await fetch("/api/admin/generate-post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          jobName: job.name,
-          jobDescription: job.description,
-          platform: platform === "both" ? "instagram" : platform,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!res.ok) {
@@ -91,17 +112,19 @@ export default function PostsPage() {
   const handleSavePost = async () => {
     if (!selectedContent) return;
 
-    const job = jobs.find((j) => j.id === selectedJob);
+    const job = sourceType === "job" ? jobs.find((j) => j.id === selectedJob) : null;
+    const campaign = sourceType === "campaign" ? campaigns.find((c) => c.id === selectedCampaign) : null;
 
     try {
       const res = await fetch("/api/admin/posts", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          job_id: selectedJob || null,
+          job_id: job?.id || null,
+          campaign_id: campaign?.id || null,
           platform,
           content: selectedContent,
-          image_url: job?.image_url || null,
+          image_url: job?.image_url || campaign?.image_url || null,
           status: "draft",
         }),
       });
@@ -113,6 +136,7 @@ export default function PostsPage() {
       setSelectedContent("");
       setGeneratedContent([]);
       setSelectedJob("");
+      setSelectedCampaign("");
     } catch (error) {
       alert("Failed to save post: " + error.message);
     }
@@ -169,24 +193,96 @@ export default function PostsPage() {
           </h2>
 
           <div className="space-y-4">
-            {/* Job Selection */}
+            {/* Source Type Toggle */}
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-2">
-                Select Job (optional)
+                Create Post From
               </label>
-              <select
-                value={selectedJob}
-                onChange={(e) => setSelectedJob(e.target.value)}
-                className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-gold-500"
-              >
-                <option value="">-- Select a job --</option>
-                {jobs.map((job) => (
-                  <option key={job.id} value={job.id}>
-                    {job.name}
-                  </option>
-                ))}
-              </select>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => {
+                    setSourceType("job");
+                    setSelectedCampaign("");
+                    setGeneratedContent([]);
+                    setSelectedContent("");
+                  }}
+                  className={`flex-1 py-2 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${
+                    sourceType === "job"
+                      ? "bg-gold-500 text-deepblack"
+                      : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+                  }`}
+                >
+                  <BriefcaseIcon className="h-4 w-4" />
+                  Job
+                </button>
+                <button
+                  onClick={() => {
+                    setSourceType("campaign");
+                    setSelectedJob("");
+                    setGeneratedContent([]);
+                    setSelectedContent("");
+                  }}
+                  className={`flex-1 py-2 rounded-lg font-medium transition-colors flex items-center justify-center gap-2 ${
+                    sourceType === "campaign"
+                      ? "bg-gold-500 text-deepblack"
+                      : "bg-gray-800 text-gray-400 hover:bg-gray-700"
+                  }`}
+                >
+                  <MegaphoneIcon className="h-4 w-4" />
+                  Campaign
+                </button>
+              </div>
             </div>
+
+            {/* Job Selection */}
+            {sourceType === "job" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Select Job
+                </label>
+                <select
+                  value={selectedJob}
+                  onChange={(e) => setSelectedJob(e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-gold-500"
+                >
+                  <option value="">-- Select a job --</option>
+                  {jobs.map((job) => (
+                    <option key={job.id} value={job.id}>
+                      {job.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {/* Campaign Selection */}
+            {sourceType === "campaign" && (
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  Select Campaign
+                </label>
+                <select
+                  value={selectedCampaign}
+                  onChange={(e) => setSelectedCampaign(e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-gold-500"
+                >
+                  <option value="">-- Select a campaign --</option>
+                  {campaigns.map((campaign) => (
+                    <option key={campaign.id} value={campaign.id}>
+                      {campaign.name} ({campaign.source})
+                    </option>
+                  ))}
+                </select>
+                {campaigns.length === 0 && (
+                  <p className="text-sm text-gray-500 mt-2">
+                    No campaigns yet.{" "}
+                    <Link href="/portal/campaigns" className="text-gold-500 hover:underline">
+                      Create one
+                    </Link>
+                  </p>
+                )}
+              </div>
+            )}
 
             {/* Platform */}
             <div>
@@ -213,7 +309,7 @@ export default function PostsPage() {
             {/* Generate Button */}
             <button
               onClick={handleGenerate}
-              disabled={generating || !selectedJob}
+              disabled={generating || (sourceType === "job" ? !selectedJob : !selectedCampaign)}
               className="w-full bg-gold-500 text-deepblack font-bold py-3 rounded-lg hover:bg-gold-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {generating ? (
@@ -312,9 +408,20 @@ export default function PostsPage() {
                     </span>
                   </div>
 
-                  {post.jobs?.name && (
-                    <p className="text-gold-500 text-sm font-medium mb-2">
-                      {post.jobs.name}
+                  {(post.jobs?.name || post.campaigns?.name) && (
+                    <p className="text-gold-500 text-sm font-medium mb-2 flex items-center gap-1">
+                      {post.jobs?.name && (
+                        <>
+                          <BriefcaseIcon className="h-3 w-3" />
+                          {post.jobs.name}
+                        </>
+                      )}
+                      {post.campaigns?.name && (
+                        <>
+                          <MegaphoneIcon className="h-3 w-3" />
+                          {post.campaigns.name}
+                        </>
+                      )}
                     </p>
                   )}
 
