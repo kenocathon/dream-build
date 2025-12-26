@@ -21,7 +21,7 @@ export default function Hero() {
           Dream Build <span className="text-gold-500">Luxury Glass</span>
         </h1>
         <p className="mt-6 text-xl md:text-2xl font-light text-gray-200 max-w-3xl mx-auto">
-          Crafting Luxury, One Pane at a Time
+          Elevate Your Lifestyle
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">
           <Link

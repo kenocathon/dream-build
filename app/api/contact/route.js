@@ -39,7 +39,7 @@ function emailWrapper(content) {
                 Dream Build Luxury Glass LLC
               </p>
               <p style="color: #888888; font-size: 12px; margin: 0 0 5px 0;">
-                Crafting Luxury, One Pane at a Time
+                Elevate Your Lifestyle
               </p>
               <p style="color: #888888; font-size: 12px; margin: 15px 0 0 0;">
                 <a href="tel:+14047078819" style="color: ${GOLD}; text-decoration: none;">(404) 707-8819</a>
@@ -95,6 +95,61 @@ function businessEmailTemplate({ name, phone, email, message }) {
     <div style="margin-top: 30px; padding: 20px; background-color: #f0f7ff; border-radius: 6px; text-align: center;">
       <p style="margin: 0; color: #333;">
         <strong>Respond within 2 hours</strong> to maintain our service promise!
+      </p>
+    </div>
+  `);
+}
+
+// Summary email for management
+function summaryEmailTemplate({ name, phone, email, message }) {
+  return emailWrapper(`
+    <h1 style="color: ${DARK}; font-size: 24px; margin: 0 0 20px 0; border-bottom: 3px solid ${GOLD}; padding-bottom: 15px;">
+      📋 Lead Summary
+    </h1>
+
+    <div style="background-color: #fafafa; border-radius: 8px; padding: 25px; margin-bottom: 20px;">
+      <table role="presentation" width="100%" cellspacing="0" cellpadding="0">
+        <tr>
+          <td style="padding: 8px 0;">
+            <span style="color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Contact</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 0 0 15px 0;">
+            <strong style="color: ${DARK}; font-size: 18px;">${name}</strong>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0; border-top: 1px solid #eee;">
+            <span style="color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Phone</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 0 0 15px 0;">
+            <a href="tel:${phone}" style="color: ${GOLD}; font-size: 16px; text-decoration: none; font-weight: bold;">${phone}</a>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 8px 0; border-top: 1px solid #eee;">
+            <span style="color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">Email</span>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding: 0 0 15px 0;">
+            <a href="mailto:${email}" style="color: ${GOLD}; font-size: 16px; text-decoration: none;">${email}</a>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="background-color: ${DARK}; border-radius: 8px; padding: 20px;">
+      <p style="color: ${GOLD}; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin: 0 0 10px 0;">Project Details</p>
+      <p style="color: #ffffff; margin: 0; line-height: 1.6; font-size: 14px;">${message || "No details provided"}</p>
+    </div>
+
+    <div style="margin-top: 25px; text-align: center;">
+      <p style="color: #888; font-size: 12px; margin: 0;">
+        Received on ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
       </p>
     </div>
   `);
@@ -175,6 +230,14 @@ export async function POST(request) {
       to: [email],
       subject: "We received your quote request!",
       html: customerEmailTemplate({ name }),
+    });
+
+    // Send summary email to management
+    await resend.emails.send({
+      from: "Dream Build Website <noreply@dbluxuryglass.com>",
+      to: ["nationdreambuild@outlook.com"],
+      subject: `Lead Summary: ${name}`,
+      html: summaryEmailTemplate({ name, phone, email, message }),
     });
 
     return NextResponse.json({ success: true, id: data?.id });

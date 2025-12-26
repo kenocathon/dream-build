@@ -10,7 +10,7 @@ export default function Footer() {
             Dream Build Luxury Glass LLC
           </h3>
           <p className="text-gray-400 text-sm mt-2">
-            Crafting Luxury, One Pane at a Time
+            Elevate Your Lifestyle
           </p>
         </div>
         <nav className="flex flex-wrap gap-6 justify-center text-gray-400">
