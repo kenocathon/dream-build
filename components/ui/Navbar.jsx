@@ -45,7 +45,7 @@ export default function Navbar() {
           : "bg-deepblack/80 backdrop-blur-sm"
       } border-b border-gold-500/10`}
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-16 lg:h-20">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-20 lg:h-24">
         {/* Mobile Menu Button */}
         <button
           className="text-white lg:hidden p-2 hover:bg-white/10 rounded-lg transition-colors"
@@ -64,11 +64,11 @@ export default function Navbar() {
           <Link href="/" className="flex items-center">
             <Image
               src="/images/logo.png"
-              width={200}
-              height={80}
+              width={280}
+              height={120}
               alt="Dream Build Luxury Glass LLC"
               priority
-              className="h-16 w-auto object-contain"
+              className="h-20 w-auto object-contain"
             />
           </Link>
         </div>
@@ -78,11 +78,11 @@ export default function Navbar() {
           <Link href="/">
             <Image
               src="/images/logo.png"
-              width={150}
-              height={60}
+              width={200}
+              height={80}
               alt="Dream Build Luxury Glass LLC"
               priority
-              className="h-12 w-auto object-contain"
+              className="h-16 w-auto object-contain"
             />
           </Link>
         </div>
