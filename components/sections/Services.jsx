@@ -33,7 +33,7 @@ export default function Services() {
     <section id="services" className="py-24 md:py-32 bg-deepblack">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 md:mb-24">
-          <h2 className="text-5xl md:text-7xl font-black tracking-tight text-white">
+          <h2 className="font-serif text-5xl md:text-7xl font-bold tracking-wide text-white">
             Our <span className="text-gold-500">Services</span>
           </h2>
           <p className="mt-6 text-xl md:text-2xl text-gray-300 font-light max-w-3xl mx-auto">
@@ -59,7 +59,7 @@ export default function Services() {
                 />
               </div>
               <div className="p-8 text-center">
-                <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
+                <h3 className="font-serif text-2xl md:text-3xl font-semibold text-white mb-4">
                   {service.title}
                 </h3>
                 <p className="text-gray-300 text-lg leading-relaxed">

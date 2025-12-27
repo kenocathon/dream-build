@@ -78,7 +78,7 @@ export default function Contact() {
   return (
     <section id="contact" className="py-32 bg-deepblack">
       <div className="max-w-4xl mx-auto px-6 text-center">
-        <h2 className="text-5xl md:text-7xl font-black tracking-tight">
+        <h2 className="font-serif text-5xl md:text-7xl font-bold tracking-wide text-white">
           Start Your <span className="text-gold-500">Transformation</span>
         </h2>
         <p className="mt-6 text-xl md:text-2xl text-gray-300 max-w-2xl mx-auto">

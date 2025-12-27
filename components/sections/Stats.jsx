@@ -40,7 +40,7 @@ export default function Stats() {
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16 md:mb-20">
-          <h2 className="text-5xl md:text-7xl font-black tracking-tight text-white">
+          <h2 className="font-serif text-5xl md:text-7xl font-bold tracking-wide text-white">
             Built on <span className="text-gold-500">Trust</span>
           </h2>
           <p className="mt-6 text-xl md:text-2xl text-gray-400 font-light">
@@ -93,7 +93,7 @@ function StatItem({ stat, delay, isVisible }) {
 
   return (
     <div className="text-center group">
-      <div className="text-6xl md:text-8xl font-black text-gold-500 tabular-nums">
+      <div className="font-serif text-6xl md:text-8xl font-bold text-gold-500 tabular-nums">
         {count}
         <span className="text-5xl md:text-7xl">{stat.suffix}</span>
       </div>

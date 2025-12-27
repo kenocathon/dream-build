@@ -17,10 +17,10 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-black/90" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6">
-        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight text-white">
+        <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold tracking-wide text-white">
           Dream Build <span className="text-gold-500">Luxury Glass</span>
         </h1>
-        <p className="mt-6 text-xl md:text-2xl font-light text-gray-200 max-w-3xl mx-auto">
+        <p className="mt-6 font-serif text-2xl md:text-4xl lg:text-5xl font-light italic text-gray-200 max-w-3xl mx-auto tracking-wide">
           Elevate Your Lifestyle
         </p>
         <div className="mt-12 flex flex-col sm:flex-row gap-6 justify-center">

@@ -1,12 +1,19 @@
 // app/layout.jsx
 import "./globals.css";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Cormorant_Garamond, Montserrat } from "next/font/google";
 import Navbar from "@/components/ui/Navbar";
 import Footer from "@/components/ui/Footer";
 
-const jakarta = Plus_Jakarta_Sans({
+const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-jakarta",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-cormorant",
+});
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-montserrat",
 });
 
 export const metadata = {
@@ -173,7 +180,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={jakarta.variable}>
+    <html lang="en" className={`${cormorant.variable} ${montserrat.variable}`}>
       <head>
         <script
           type="application/ld+json"

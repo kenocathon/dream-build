@@ -41,9 +41,9 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-deepblack/95 backdrop-blur-md shadow-lg shadow-black/20"
-          : "bg-deepblack/80 backdrop-blur-sm"
-      } border-b border-gold-500/10`}
+          ? "bg-gray-900 shadow-lg shadow-black/30"
+          : "bg-gray-900/95 backdrop-blur-sm"
+      } border-b border-gold-500/20`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 h-20 lg:h-24">
         {/* Mobile Menu Button */}
@@ -137,7 +137,7 @@ export default function Navbar() {
 
         {/* Mobile Navigation Menu */}
         <div
-          className={`absolute top-full left-0 w-full bg-deepblack/98 backdrop-blur-md border-b border-gold-500/10 lg:hidden transition-all duration-300 ${
+          className={`absolute top-full left-0 w-full bg-gray-900 border-b border-gold-500/20 shadow-xl shadow-black/50 lg:hidden transition-all duration-300 ${
             isMenuOpen
               ? "opacity-100 translate-y-0"
               : "opacity-0 -translate-y-4 pointer-events-none"

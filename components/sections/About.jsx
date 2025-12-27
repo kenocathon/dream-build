@@ -25,7 +25,7 @@ export default function About() {
 
           {/* Content */}
           <div className="order-1 lg:order-2 text-center lg:text-left">
-            <h2 className="text-5xl md:text-7xl font-black tracking-tight text-white">
+            <h2 className="font-serif text-5xl md:text-7xl font-bold tracking-wide text-white">
               Why Choose <span className="text-gold-500">Dream Build</span>
             </h2>
 
